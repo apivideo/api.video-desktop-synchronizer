@@ -1,0 +1,249 @@
+body {
+  background-color: #202124;
+  color: #b8b1b6;
+  font-family: arial;
+}
+
+#header {
+  display: flex;
+  justify-content: space-between;
+}
+
+#settings-button {
+  font-size: 2em;
+  color: white;
+  padding: 0 10px;
+  top: 0;
+  height: fit-content;
+}
+
+#logo {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 2em;
+}
+
+.container {
+  padding: 0 5em 0 5em;
+}
+
+#message {
+  text-align: center;
+  margin-top: 10px;
+  color: #C00;
+  font-size: 0.8em;
+}
+
+.field-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 2em 0;
+  border-left: 5px solid #505154;
+  padding-left: 1em;
+}
+
+#folder-field-line {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.field-section.error {
+  border-left: 5px solid #bb3333;
+}
+
+.field-section label {
+  margin-bottom: 0.5em;
+}
+
+#folder {
+  font-family: monospace;
+}
+
+#logs {
+  background-color: #333;
+  padding: 5px;
+  margin-top: 1em;
+  font-family: monospace;
+  height: 100%;
+}
+
+#logs button {
+  padding: 0;
+  top: 0;
+  font-family: monospace;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#logs .logline {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 2px;
+}
+
+input {
+  background-color: #202124;
+  border: none;
+  border-bottom: 1px solid #b8b1b6;
+  padding: 0.5em;
+  color: #b8b1b6;
+  width: 100%;
+}
+
+button {
+  background: none;
+  border: none;
+  color: #78a2f6;
+  position: relative;
+  top: -0.5em;
+  padding: 0.5em 1em;
+  border-radius: 3px;
+}
+
+button:hover {
+  background-color: #303134;
+}
+
+input:focus {
+  outline: none;
+  background-color: #303134;
+}
+
+.container > .switch {
+  display: block;
+  margin: 12px auto;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 56px;
+  height: 20px;
+  padding: 0;
+  background-color: white;
+  border-radius: 18px;
+  box-shadow: inset 0 -1px white, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  background-image: -webkit-linear-gradient(top, #eeeeee, white 25px);
+  background-image: -moz-linear-gradient(top, #eeeeee, white 25px);
+  background-image: -o-linear-gradient(top, #eeeeee, white 25px);
+  background-image: linear-gradient(to bottom, #eeeeee, white 25px);
+}
+
+.switch-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.switch-label {
+  position: relative;
+  display: block;
+  height: inherit;
+  font-size: 10px;
+  text-transform: uppercase;
+  background: #eceeef;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.15);
+  -webkit-transition: 0.15s ease-out;
+  -moz-transition: 0.15s ease-out;
+  -o-transition: 0.15s ease-out;
+  transition: 0.15s ease-out;
+  -webkit-transition-property: opacity background;
+  -moz-transition-property: opacity background;
+  -o-transition-property: opacity background;
+  transition-property: opacity background;
+}
+
+.switch-label:before,
+.switch-label:after {
+  position: absolute;
+  top: 50%;
+  margin-top: -.5em;
+  line-height: 1;
+  -webkit-transition: inherit;
+  -moz-transition: inherit;
+  -o-transition: inherit;
+  transition: inherit;
+}
+
+.switch-label:before {
+  content: attr(data-off);
+  right: 11px;
+  color: #aaa;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.switch-label:after {
+  content: attr(data-on);
+  left: 11px;
+  color: white;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+}
+
+.switch-input:checked ~ .switch-label {
+  background: #47a8d8;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.switch-input:checked ~ .switch-label:before {
+  opacity: 0;
+}
+
+.switch-input:checked ~ .switch-label:after {
+  opacity: 1;
+}
+
+.switch-handle {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  background-image: -webkit-linear-gradient(top, white 40%, #f0f0f0);
+  background-image: -moz-linear-gradient(top, white 40%, #f0f0f0);
+  background-image: -o-linear-gradient(top, white 40%, #f0f0f0);
+  background-image: linear-gradient(to bottom, white 40%, #f0f0f0);
+  -webkit-transition: left 0.15s ease-out;
+  -moz-transition: left 0.15s ease-out;
+  -o-transition: left 0.15s ease-out;
+  transition: left 0.15s ease-out;
+}
+
+.switch-handle:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -6px 0 0 -6px;
+  width: 12px;
+  height: 12px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.02);
+  background-image: -webkit-linear-gradient(top, #eeeeee, white);
+  background-image: -moz-linear-gradient(top, #eeeeee, white);
+  background-image: -o-linear-gradient(top, #eeeeee, white);
+  background-image: linear-gradient(to bottom, #eeeeee, white);
+}
+
+.switch-input:checked ~ .switch-handle {
+  left: 37px;
+  box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.switch-green > .switch-input:checked ~ .switch-label {
+  background: #4fb845;
+}
+  

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+    <title>api.video uploader</title>
+</head>
+
+<body>
+    <div id="header">
+        <div>&nbsp</div>
+        <div id="logo">
+            <img src="Logo_white_text.svg" style="width: 200px" />
+        </div>
+        <div>&nbsp</div>
+    </div>
+
+    <div class="container" id="settings-section">
+
+        <div class="field-section">
+            <label for="apiKey">API key</label>
+            <input type="password" id="apiKey" />
+        </div>
+        <div class="field-section">
+            <label for="folder">Folder to synchronize</label>
+            <div id="folder-field-line">
+                <span id="folder"></span>
+                <button id="select-folder-button">select</button>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
+            <button id='apply-button' style="background-color: #78a2f6; color: #202124; right: -24px">Apply</button>
+        </div>
+    </div>
+    <div id="message"></div>
+
+    <script>
+
+    </script>
+</body>
+
+</html>
