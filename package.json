@@ -7,7 +7,7 @@
   "scripts": {
     "start": "tsc && electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make",
+    "make": "tsc && electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts ."
   },

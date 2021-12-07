@@ -26,7 +26,7 @@ const config = {
         generateAssets: require('./tools/generateAssets'),
     },*/
     packagerConfig: {
-        name: 'api.video synchronizer',
+        name: 'api-video-synchronizer',
         executableName: 'api-video-synchronizer',
         asar: true,
         icon: path.resolve(__dirname, 'src', 'assets', 'api-video-logo'),
@@ -34,7 +34,7 @@ const config = {
         appCategoryType: 'public.app-category.video',
         win32metadata: {
             CompanyName: 'api.video',
-            OriginalFilename: 'api.video synchronizer',
+            OriginalFilename: 'api-video-synchronizer',
         },
         osxSign: {
             identity: 'Developer ID Application: Anthony Dantard (GBC36KP98K)',
@@ -66,7 +66,7 @@ const config = {
                     exe: 'api-video-synchronizer.exe',
                     //iconUrl:
                     //    'https://raw.githubusercontent.com/electron/fiddle/0119f0ce697f5ff7dec4fe51f17620c78cfd488b/assets/icons/fiddle.ico',
-                   // loadingGif: './assets/loading.gif',
+                    // loadingGif: './assets/loading.gif',
                     //noMsi: true,
                     setupExe: `api-video-synchronizer-${version}-win32-${arch}-setup.exe`,
                     setupIcon: path.resolve(__dirname, 'src', 'assets', 'api-video-logo.ico'),
