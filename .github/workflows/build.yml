@@ -1,13 +1,44 @@
-name: Build/release
-on: push
+name: Publish
+on:
+  push:
+    tags:
+      - '*'
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
 
-    strategy:
-      matrix:
-        os: [macos-latest, windows-latest]
+      - name: Add Apple developer ID certificate
+        env: 
+          MACOS_CERTIFICATE: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE }}
+          MACOS_CERTIFICATE_PWD: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }}
+        run: |
+          echo $MACOS_CERTIFICATE > certificate.base64
+          base64 -i certificate.base64 --decode > certificate.p12
+          security create-keychain -p TMP_KEYCHAIN_PASS build.keychain 
+          security default-keychain -s build.keychain
+          security unlock-keychain -p TMP_KEYCHAIN_PASS build.keychain
+          security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k TMP_KEYCHAIN_PASS build.keychain
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
 
+      - name: Build/release Electron app
+        run: npm install && npm run make
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: api-video-synchronizer.dmg
+          path: out/make/api-video-synchronizer.dmg
+  build-windows:
+    runs-on: windows-latest
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
@@ -18,38 +49,38 @@ jobs:
           node-version: 14
 
       - name: Build/release Electron app
-        run: npm install && npm run make && ls out/* && ls out/*/*
+        run: npm install && npm run make 
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: api-video-synchronizer-win32-x64-setup.exe
+          path: out/make/squirrel.windows/x64/api-video-synchronizer-win32-x64-setup.exe
   release:
     name: Upload Release Asset
+    needs: [build-macos, build-windows]
     runs-on: ubuntu-latest
     steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/download-artifact@v2
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-      - name: Upload Release Asset
-        id: upload-release-asset-mac
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: api-video-synchronizer.dmg
+      - uses: actions/download-artifact@v2
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./out/api-video-synchronizer.app
-          asset_name: api-video-synchronizer.app
-          asset_content_type: application/zip
-      - name: Upload Release Asset
-        id: upload-release-asset-windows
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: api-video-synchronizer-win32-x64-setup.exe
+      - name: ls
+        run: ls
+      - name: Upload macos binaries to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./out/api.video synchronizer-win32-x64/api-video-synchronizer.exe
-          asset_name: api-video-synchronizer.exe
-          asset_content_type: application/zip          
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./api-video-synchronizer.dmg
+          asset_name: api-video-synchronizer-${{ github.ref_name }}-darwin-x64.dmg
+          tag: ${{ github.ref }}
+          overwrite: true    
+      - name: Upload windows binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./api-video-synchronizer-win32-x64-setup.exe
+          asset_name: api-video-synchronizer-${{ github.ref_name }}-win32-x64-setup.exe
+          tag: ${{ github.ref }}
+          overwrite: true

@@ -4,6 +4,10 @@
 
 [api.video](https://api.video) is the video infrastructure for product builders. Lightning fast video APIs for integrating, scaling, and managing on-demand & low latency live streaming features in your app.
 
+# Warning
+
+This project is still in the testing phase. The applications proposed for download should be considered as alpha version.
+
 # Project description
 
 This desktop application allows you to easily upload videos from a local folder to api.video.
