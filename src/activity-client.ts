@@ -10,6 +10,8 @@ const updateStatuses = (statuses: UploadStatuses) => {
         const status = statuses[hash];
         const lineDiv = document.createElement("div");
         const filenameDiv = document.createElement("div");
+        const dotsDiv = document.createElement("div");
+        dotsDiv.className = "dots";
         const statusDiv = document.createElement("div");
         lineDiv.className = "logline";
         filenameDiv.innerHTML = status.filename;
@@ -17,11 +19,12 @@ const updateStatuses = (statuses: UploadStatuses) => {
             statusDiv.innerHTML = status.status === "IN_PROGRESS" ? Math.round(status.percent * 100) + "%" : status.status;
         } else {
             const link = document.createElement("button");
-            link.innerHTML = "DONE";
+            link.innerHTML = "VIEW";
             link.onclick = () => ipc.send('open-in-browser', status.link);
             statusDiv.appendChild(link);
         }
         lineDiv.appendChild(filenameDiv);
+        lineDiv.appendChild(dotsDiv);
         lineDiv.appendChild(statusDiv);
         statusesContainer.appendChild(lineDiv);
     }
@@ -29,10 +32,8 @@ const updateStatuses = (statuses: UploadStatuses) => {
 
 
 window.addEventListener('DOMContentLoaded', () => {
-
-
-    ipc.on('statuses', (event, arg) => {
+    ipc.on('uploadStatuses', (event, arg) => {
         updateStatuses(arg);
     })
-    setInterval(() => ipc.send('get-statuses', 'ping'), 200);
+    ipc.send('get-statuses');
 })

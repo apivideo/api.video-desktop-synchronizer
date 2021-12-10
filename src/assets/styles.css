@@ -51,6 +51,13 @@ body {
   justify-content: space-between;
 }
 
+.dots {
+  flex: 1;
+  border-bottom: 1px dashed grey;
+  bottom: 5px;
+  position: relative;
+}
+
 .field-section.error {
   border-left: 5px solid #bb3333;
 }
@@ -84,6 +91,7 @@ body {
   justify-content: space-between;
   flex-direction: row;
   padding: 2px;
+  gap: 5px;
 }
 
 input {

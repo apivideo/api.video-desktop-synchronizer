@@ -38,7 +38,7 @@ export default class Synchronizer extends EventEmitter {
             this.watcher = undefined;
         }
 
-        if(!await isApiKeyValid(settings.apiKey)) {
+        if (!await isApiKeyValid(settings.apiKey)) {
             this.emit("auth-error");
             this.stop();
             return;
@@ -84,21 +84,27 @@ export default class Synchronizer extends EventEmitter {
 
         try {
             const existingVideo = await apiVideoClient.videos.list({ metadata: { uploaderhash: hash } });
+
             if (existingVideo.pagination.itemsTotal === 0) {
                 this.updateUploadStatus(hash, { status: 'PENDING', percent: 0, filename });
                 this.uploadQueue.enqueue(() => this.uploadFile(filePath, hash, apiVideoClient));
             } else {
-                this.updateUploadStatus(hash, { status: 'DONE', percent: 100, filename, link: existingVideo.data[0].assets.player });
+                const uploadedChunksMetadata = existingVideo.data[0].metadata.find(m => m.key === 'uploaderuploadstatus' && m.value === "done");
+                if(!uploadedChunksMetadata) {
+                    await apiVideoClient.videos.delete(existingVideo.data[0].videoId);
+                    this.uploadQueue.enqueue(() => this.uploadFile(filePath, hash, apiVideoClient));
+                } else {
+                    this.updateUploadStatus(hash, { status: 'DONE', percent: 100, filename, link: existingVideo.data[0].assets.player });
+                }
             }
         } catch (e) {
             if (e.problemDetails.status == 401) {
                 this.emit("auth-error");
                 this.stop();
             }
-
         }
     }
-
+    
     async stop() {
         this.emit("busy");
         if (this.watcher) {
@@ -109,18 +115,25 @@ export default class Synchronizer extends EventEmitter {
     }
 
     private async uploadFile(filePath: string, hash: string, apiVideoClient: ApiVideoClient) {
-        this.updateUploadStatus(hash, { status: "IN_PROGRESS"});
+        this.updateUploadStatus(hash, { status: "IN_PROGRESS" });
 
         const creationResult = await apiVideoClient.videos.create({
             title: path.basename(filePath),
-            metadata: [{ key: "uploaderhash", value: hash }]
+            metadata: [ { key: "uploaderhash", value: hash } ]
         });
 
         const uploadResult = await apiVideoClient.videos.upload(
-            creationResult.videoId, 
-            filePath, 
-            (progress) => this.uploadStatuses[hash].percent = progress.uploadedBytes / progress.totalBytes
+            creationResult.videoId,
+            filePath,
+            (progress) => this.updateUploadStatus(hash, { status: "IN_PROGRESS", percent: progress.uploadedBytes / progress.totalBytes })
         );
+
+        await apiVideoClient.videos.update(creationResult.videoId, {
+            metadata: [
+                { key: "uploaderhash", value: hash },
+                { key: "uploaderuploadstatus", value: "done" }
+            ]
+        });
 
         this.updateUploadStatus(hash, { link: uploadResult.assets.player, status: "PROCESSING", percent: 100 });
 

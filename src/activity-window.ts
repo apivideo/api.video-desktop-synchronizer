@@ -15,13 +15,16 @@ export default class ActivityWindow {
             this.browserWindow.on('close', () => this.onClose());
 
             ipcMain.on('open-in-browser', (event, url) => shell.openExternal(url));
-            ipcMain.on('get-statuses', (event, arg) => event.reply('statuses', this.uploadStatuses));
+            ipcMain.on('get-statuses', (event, arg) => event.reply('uploadStatuses', this.uploadStatuses));
         }
         this.browserWindow.show();
     }
 
     setUploadStatuses(uploadStatuses: UploadStatuses) {
         this.uploadStatuses = uploadStatuses;
+        if(this.browserWindow) {
+            this.browserWindow.webContents.send("uploadStatuses", uploadStatuses);
+        }
     }
 
     private createBrowserWindow() {
