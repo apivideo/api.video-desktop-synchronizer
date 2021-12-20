@@ -17,15 +17,15 @@ if (process.env['WINDOWS_CODESIGN_FILE']) {
 
 const config = {
     packagerConfig: {
-        name: 'api-video-synchronizer',
-        executableName: 'api-video-synchronizer',
+        name: 'api-video',
+        executableName: 'api-video',
         asar: true,
         icon: path.resolve(__dirname, 'src', 'assets', 'api-video-logo'),
         appBundleId: 'video.api.synchronizer',
         appCategoryType: 'public.app-category.video',
         win32metadata: {
             CompanyName: 'api.video',
-            OriginalFilename: 'api-video-synchronizer',
+            OriginalFilename: 'api-video',
         },
         osxSign: {
             identity: 'Developer ID Application: Anthony Dantard (GBC36KP98K)',
@@ -42,10 +42,10 @@ const config = {
             platforms: ['win32'],
             config: (arch) => {
                 return {
-                    name: 'api-video-synchronizer',
+                    name: 'api-video',
                     authors: 'api.video',
-                    exe: 'api-video-synchronizer.exe',
-                    setupExe: `api-video-synchronizer-win32-${arch}-setup.exe`,
+                    exe: 'api-video.exe',
+                    setupExe: `api-video-win32-${arch}-setup.exe`,
                     setupIcon: path.resolve(__dirname, 'src', 'assets', 'api-video-logo.ico'),
                 };
             },
@@ -55,7 +55,7 @@ const config = {
             platforms: ['darwin'],
             config: {
                 format: 'ULFO',
-                name: 'api-video-synchronizer',
+                name: 'api-video',
                 icon: path.resolve(__dirname, 'src', 'assets', 'api-video-logo.icns'),
             }
         }

@@ -1,7 +1,7 @@
 import ApiVideoClient from "@api.video/nodejs-client";
 import { FSWatcher, watch } from "chokidar";
 import { createHash } from 'crypto';
-import { shell } from "electron";
+import { clipboard, shell } from "electron";
 import { Notification } from "electron/main";
 import { EventEmitter } from 'events';
 import { createReadStream } from 'fs';
@@ -161,12 +161,17 @@ export default class Synchronizer extends EventEmitter {
     }
 
     private showNotification(videoTitle: string, videoUrl: string) {
-        const notif = new Notification({ 
-            title: 'Video uploaded', 
-            body: `Your video "${videoTitle}" has been uploaded. Click to open it.`, 
-            icon: 'assets/tray-icon.png' 
-        });
-        notif.on("click", () => shell.openExternal(videoUrl));
-        notif.show();
+        const notif = new Notification({
+            title: 'Video uploaded',
+            body: `Your video "${videoTitle}" has been uploaded. Click to open it.`,
+            icon: 'assets/tray-icon.png',
+            actions: [{
+              text: "Copy url",
+              type: "button"
+            }]
+          });
+          notif.on("click", () => shell.openExternal(videoUrl));
+          notif.on("action", (e) => clipboard.writeText(videoUrl));
+          notif.show();
     }
 }                   
