@@ -1,6 +1,8 @@
 import ApiVideoClient from "@api.video/nodejs-client";
 import { FSWatcher, watch } from "chokidar";
 import { createHash } from 'crypto';
+import { shell } from "electron";
+import { Notification } from "electron/main";
 import { EventEmitter } from 'events';
 import { createReadStream } from 'fs';
 import { Stats } from "original-fs";
@@ -90,7 +92,7 @@ export default class Synchronizer extends EventEmitter {
                 this.uploadQueue.enqueue(() => this.uploadFile(filePath, hash, apiVideoClient));
             } else {
                 const uploadedChunksMetadata = existingVideo.data[0].metadata.find(m => m.key === 'uploaderuploadstatus' && m.value === "done");
-                if(!uploadedChunksMetadata) {
+                if (!uploadedChunksMetadata) {
                     await apiVideoClient.videos.delete(existingVideo.data[0].videoId);
                     this.uploadQueue.enqueue(() => this.uploadFile(filePath, hash, apiVideoClient));
                 } else {
@@ -104,7 +106,7 @@ export default class Synchronizer extends EventEmitter {
             }
         }
     }
-    
+
     async stop() {
         this.emit("busy");
         if (this.watcher) {
@@ -119,7 +121,7 @@ export default class Synchronizer extends EventEmitter {
 
         const creationResult = await apiVideoClient.videos.create({
             title: path.basename(filePath),
-            metadata: [ { key: "uploaderhash", value: hash } ]
+            metadata: [{ key: "uploaderhash", value: hash }]
         });
 
         const uploadResult = await apiVideoClient.videos.upload(
@@ -140,6 +142,7 @@ export default class Synchronizer extends EventEmitter {
         let statusInterval = setInterval(() => {
             apiVideoClient.videos.getStatus(uploadResult.videoId).then((s) => {
                 if (s.encoding.playable) {
+                    this.showNotification(uploadResult.title, uploadResult.assets.player);
                     this.updateUploadStatus(hash, { status: "DONE" });
                     clearInterval(statusInterval);
                 }
@@ -157,4 +160,13 @@ export default class Synchronizer extends EventEmitter {
         });
     }
 
+    private showNotification(videoTitle: string, videoUrl: string) {
+        const notif = new Notification({ 
+            title: 'Video uploaded', 
+            body: `Your video "${videoTitle}" has been uploaded. Click to open it.`, 
+            icon: 'assets/tray-icon.png' 
+        });
+        notif.on("click", () => shell.openExternal(videoUrl));
+        notif.show();
+    }
 }                   
