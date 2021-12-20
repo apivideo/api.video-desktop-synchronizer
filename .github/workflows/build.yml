@@ -34,8 +34,8 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: api-video-synchronizer.dmg
-          path: out/make/api-video-synchronizer.dmg
+          name: api-video.dmg
+          path: out/make/api-video.dmg
   build-windows:
     runs-on: windows-latest
     steps:
@@ -52,8 +52,8 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: api-video-synchronizer-win32-x64-setup.exe
-          path: out/make/squirrel.windows/x64/api-video-synchronizer-win32-x64-setup.exe
+          name: api-video-win32-x64-setup.exe
+          path: out/make/squirrel.windows/x64/api-video-win32-x64-setup.exe
   release:
     name: Upload Release Asset
     needs: [build-macos, build-windows]
@@ -61,25 +61,25 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
         with:
-          name: api-video-synchronizer.dmg
+          name: api-video.dmg
       - uses: actions/download-artifact@v2
         with:
-          name: api-video-synchronizer-win32-x64-setup.exe
+          name: api-video-win32-x64-setup.exe
       - name: ls
         run: ls
       - name: Upload macos binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./api-video-synchronizer.dmg
-          asset_name: api-video-synchronizer-${{ github.ref_name }}-darwin-x64.dmg
+          file: ./api-video.dmg
+          asset_name: api-video-${{ github.ref_name }}-darwin-x64.dmg
           tag: ${{ github.ref }}
           overwrite: true    
       - name: Upload windows binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./api-video-synchronizer-win32-x64-setup.exe
-          asset_name: api-video-synchronizer-${{ github.ref_name }}-win32-x64-setup.exe
+          file: ./api-video-win32-x64-setup.exe
+          asset_name: api-video-${{ github.ref_name }}-win32-x64-setup.exe
           tag: ${{ github.ref }}
           overwrite: true
