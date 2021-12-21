@@ -1593,6 +1593,11 @@
     "word-wrap" "^1.2.3"
     "yargs" "^16.0.2"
 
+"electron-is-dev@^0.3.0":
+  "integrity" "sha1-FOb9pcaOnk7L7/nM8DfL18BcWv4="
+  "resolved" "https://registry.npmjs.org/electron-is-dev/-/electron-is-dev-0.3.0.tgz"
+  "version" "0.3.0"
+
 "electron-notarize@^1.1.1":
   "integrity" "sha512-kufsnqh86CTX89AYNG3NCPoboqnku/+32RxeJ2+7A4Rbm4bbOx0Nc7XTy3/gAlBfpj9xPAxHfhZLOHgfi6cJVw=="
   "resolved" "https://registry.npmjs.org/electron-notarize/-/electron-notarize-1.1.1.tgz"
@@ -1692,7 +1697,7 @@
     "lodash.template" "^4.2.2"
     "temp" "^0.9.0"
 
-"electron@16.0.2":
+"electron@>= 6.0.0", "electron@16.0.2":
   "integrity" "sha512-kT746yVMztrP4BbT3nrFNcUcfgFu2yelUw6TWBVTy0pju+fBISaqcvoiMrq+8U0vRpoXSu2MJYygOf4T0Det7g=="
   "resolved" "https://registry.npmjs.org/electron/-/electron-16.0.2.tgz"
   "version" "16.0.2"
@@ -2463,6 +2468,13 @@
   dependencies:
     "assert-plus" "^1.0.0"
 
+"github-url-to-object@^4.0.4":
+  "integrity" "sha512-NaqbYHMUAlPcmWFdrAB7bcxrNIiiJWJe8s/2+iOc9vlcHlwHqSGrPk+Yi3nu6ebTwgsZEa7igz+NH2vEq3gYwQ=="
+  "resolved" "https://registry.npmjs.org/github-url-to-object/-/github-url-to-object-4.0.6.tgz"
+  "version" "4.0.6"
+  dependencies:
+    "is-url" "^1.1.0"
+
 "glob-parent@^5.1.2", "glob-parent@~5.1.2":
   "integrity" "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="
   "resolved" "https://registry.npmjs.org/glob-parent/-/glob-parent-5.1.2.tgz"
@@ -3016,6 +3028,11 @@
   "integrity" "sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw=="
   "resolved" "https://registry.npmjs.org/is-unicode-supported/-/is-unicode-supported-0.1.0.tgz"
   "version" "0.1.0"
+
+"is-url@^1.1.0", "is-url@^1.2.4":
+  "integrity" "sha512-ITvGim8FhRiYe4IQ5uHSkj7pVaPDrCTkNd3yq3cV7iZAcJdHTUMPMEHcqSOy9xZ9qFenQCvi+2wjH9a1nXqHww=="
+  "resolved" "https://registry.npmjs.org/is-url/-/is-url-1.2.4.tgz"
+  "version" "1.2.4"
 
 "is-utf8@^0.2.0":
   "integrity" "sha1-Sw2hRCEE0bM2NA6AeX6GXPOffXI="
@@ -5054,6 +5071,16 @@
   "integrity" "sha512-b2/KCUlYZUeA7JFUuRJZPUtr4gZvBh7tavtv4fvk4+KV9pfGiR6CQAQAWl49ZpR3ts2dk4FYkP7EIgDJoiOLDA=="
   "resolved" "https://registry.npmjs.org/unorm/-/unorm-1.6.0.tgz"
   "version" "1.6.0"
+
+"update-electron-app@^2.0.1":
+  "integrity" "sha512-e4xEner89UZZaBGYJbYlMdL1uUrC0VjOsTAL2N4opPjzFtn+j7mdsJJsnyXZzUVeLY+8tuCX4XEsUM98oBHmZg=="
+  "resolved" "https://registry.npmjs.org/update-electron-app/-/update-electron-app-2.0.1.tgz"
+  "version" "2.0.1"
+  dependencies:
+    "electron-is-dev" "^0.3.0"
+    "github-url-to-object" "^4.0.4"
+    "is-url" "^1.2.4"
+    "ms" "^2.1.1"
 
 "uri-js@^4.2.2":
   "integrity" "sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg=="
