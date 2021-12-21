@@ -58,6 +58,10 @@ const config = {
                 name: 'api-video',
                 icon: path.resolve(__dirname, 'src', 'assets', 'api-video-logo.icns'),
             }
+        },
+        {
+            name: '@electron-forge/maker-zip',
+            platforms: ['darwin']
         }
     ],
     publishers: [

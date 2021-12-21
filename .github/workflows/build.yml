@@ -27,7 +27,7 @@ jobs:
           node-version: 14
 
       - name: Build/release Electron app
-        run: npm install && npm run make
+        run: npm install && npm run make && cp out/make/zip/darwin/x64/api-video-darwin-x64-*.zip out/make/api-video.zip
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
@@ -36,6 +36,11 @@ jobs:
         with:
           name: api-video.dmg
           path: out/make/api-video.dmg
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: api-video.zip
+          path: out/make/api-video.zip
   build-windows:
     runs-on: windows-latest
     steps:
@@ -64,9 +69,20 @@ jobs:
           name: api-video.dmg
       - uses: actions/download-artifact@v2
         with:
+          name: api-video.zip
+      - uses: actions/download-artifact@v2
+        with:
           name: api-video-win32-x64-setup.exe
       - name: ls
         run: ls
+      - name: Upload macos zip to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./api-video.zip
+          asset_name: api-video-${{ github.ref_name }}-darwin-x64.zip
+          tag: ${{ github.ref }}
+          overwrite: true    
       - name: Upload macos binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
