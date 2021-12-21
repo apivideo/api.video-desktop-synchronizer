@@ -1,9 +1,13 @@
 {
   "name": "api-video-file-synchronizer",
   "productName": "api-video-file-synchronizer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "My Electron application description",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apivideo/api.video-desktop-synchronizer"
+  },
   "scripts": {
     "start": "tsc && electron-forge start",
     "package": "electron-forge package",
@@ -42,6 +46,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.0.1",
     "node-fetch": "^3.1.0",
-    "queue-promise": "^2.2.1"
+    "queue-promise": "^2.2.1",
+    "update-electron-app": "^2.0.1"
   }
 }
