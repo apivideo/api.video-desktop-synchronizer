@@ -33,7 +33,7 @@ At the moment, the application is compatible with MacOS & Windows.
 
 1) download the executable that matches your OS (currently MacOS & Windows are supported) here: [latest release](https://github.com/apivideo/api.video-desktop-synchronizer/releases/latest).
 2) launch the executable (NOTE: at the moment, Windows executables are not signed, so you will probably have to accept some security warnings at the first run)
-3) when you launch the app for the first time, the Settings window appears. Here, you'll have to enter your api.video API key, and the folder you want to watch:
+3) when you launch the app for the first time, the Settings window appears. Here, you'll have to enter your [api.video API key](https://dashboard.api.video/register), and the folder you want to watch:
    
     ![](doc/settings.png)   
 
